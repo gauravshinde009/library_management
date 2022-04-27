@@ -1,0 +1,92 @@
+<%- include("partials/header") %>
+
+<style>
+  #frm-issue-book label.error{
+    color: red;
+  }
+</style>
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Issue a Book</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Issue a Book</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <div class="card card-dark">
+            <div class="card-header">
+              <h3 class="card-title">Issue a Book</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form method="POST" action="/admin/issue-book" id="frm-issue-book">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Select Category</label>
+                      <select required class="form-control" name="dd_category" id="dd_category">
+                        <option value="">Choose Category</option>
+                        <% categories.forEach(function(data){%>
+                        <option value="<%= data.id %>"><%= data.name %></option>
+                        <%})%>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Select Book</label>
+                      <select required class="form-control" name="dd_book" id="dd_book_list">
+                        <option value="">Choose Book</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Select User</label>
+                      <select required class="form-control" name="dd_user">
+                        <option value="">Choose User</option>
+                        <% users.forEach(function(data){%>
+                          <option value="<%=data.id %>"><%= data.name %> (<%= data.email %>)</option>
+                          <%})%>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>How many days we want to issue?</label>
+                      <select required class="form-control" name="dd_days">
+                        <option value="">Choose Days</option>
+                        <% days.forEach(function(data){%>
+                          <option value="<%=data.total_days%>"><%=data.total_days%></option>
+                        <%})%>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-success" type="submit">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<%- include("partials/footer") %>
+  
+ 

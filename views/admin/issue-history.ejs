@@ -1,0 +1,70 @@
+<%- include("partials/header") %>
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">List Issued Books</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">List Issued Books</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          
+          <div class="card card-dark">
+            <div class="card-header">
+              <h3 class="card-title">List Issued Books</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="tbl-list-issue-books" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Book</th>
+                  <th>User Info</th>
+                  <th>Total Days</th>
+                  <th>Issue Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <% list.forEach((data)=>{%>
+                    <tr>
+                      <td><%=data.Category.name%></td>
+                      <td><%=data.Book.name%></td>
+                      <td>Name: <%=data.User.name%> Email:<%=data.User.email%></td>
+                      <td><%=data.days_issued%></td>
+                      <td><%=data.issued_date%></td>
+                    </tr>
+                 <% }) %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Category</th>
+                  <th>Book</th>
+                  <th>User Info</th>
+                  <th>Total Days</th>
+                  <th>Issue Date</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<%- include("partials/footer") %>
+  
+ 
