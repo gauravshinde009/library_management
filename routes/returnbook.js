@@ -20,7 +20,8 @@ router.route("/admin/return-a-book").get(async(req,res,next)=>{
   })
 
   res.render("admin/return-a-book",{
-    users:all_users
+    users:all_users,
+    title:"Return Book"
   })
 }).post((req,res,next)=>{
 
@@ -44,7 +45,10 @@ router.route("/admin/return-a-book").get(async(req,res,next)=>{
       req.flash("error","Failed to return book.")
     }
 
-    res.redirect("/admin/return-a-book")
+    res.redirect("/admin/return-a-book",{
+      users:all_users,
+      title:"Return Book"
+    })
   })
 })
 
@@ -74,7 +78,8 @@ router.get("/admin/return-list-book",async(req,res,next)=>{
   })
 
   res.render("admin/return-list",{
-    list:return_list
+    list:return_list,
+    title:"Return List"
   })
 })
 

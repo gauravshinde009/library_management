@@ -1,6 +1,7 @@
 
 const express = require('express');
 var Sequelize = require("sequelize");
+const {redirectHome,redirectLogin }= require("../middleware/redirect") 
 
 const router = express.Router();
 
@@ -8,10 +9,12 @@ var categoryModel = require("../models").Category;
 var Op = Sequelize.Op;
 
 
-
 router.route("/admin/add-category")
-.get((req,res,next)=>{
-  res.render("admin/add-category")}  )
+.get(redirectLogin,(req,res,next)=>{
+  res.render("admin/add-category",{
+    title:"Add category"
+  })
+})
 .post((req,res,next)=>{
   console.log(req.body)
 
@@ -25,7 +28,9 @@ router.route("/admin/add-category")
     if(data){
       // existed
       req.flash("error","Category already exist")
-      res.redirect("/admin/add-category")
+      res.redirect("/admin/add-category",{
+        title:"Add category"
+      })
 
     }else{
       //not exist
@@ -37,10 +42,14 @@ router.route("/admin/add-category")
     
         if(category){
           req.flash("success","Category Created Successfully")
-          res.redirect("/admin/add-category")
+          res.redirect("/admin/add-category",{
+            title:"Add category"
+          })
         }else{
           req.flash("error","Failed to create category")
-          res.redirect("/admin/add-category")
+          res.redirect("/admin/add-category",{
+            title:"Add category"
+          })
         }
       })
     }
@@ -53,7 +62,8 @@ router.get("/admin/list-category",async(req,res,next)=>{
   var all_categories = await categoryModel.findAll();
 
   res.render("admin/list-category",{
-    categories:all_categories
+    categories:all_categories,
+    title:"List category"
   })
 })
 
@@ -68,7 +78,8 @@ router.route("/admin/edit-category/:categoryId").get(async(req,res,next)=>{
     }
   }).then((data)=>{
     res.render("admin/edit-category",{
-      category:data
+      category:data,
+      title:"Edit category"
     })
   })
 }).post(async(req,res,next)=>{
@@ -89,7 +100,9 @@ router.route("/admin/edit-category/:categoryId").get(async(req,res,next)=>{
     if(data){
       //category already exists
       req.flash("error","Category already exist")
-      res.redirect("/admin/edit-category/"+req.params.categoryId)
+      res.redirect("/admin/edit-category/"+req.params.categoryId,{
+        title:"Edit category"
+      })
 
     }else{
       //category does not exist
@@ -107,7 +120,9 @@ router.route("/admin/edit-category/:categoryId").get(async(req,res,next)=>{
           req.flash("error","Failed to update category")
         }
 
-        res.redirect("/admin/edit-category/"+req.params.categoryId)
+        res.redirect("/admin/edit-category/"+req.params.categoryId,{
+          title:"Edit category"
+        })
       })
     }
   })
@@ -139,7 +154,9 @@ router.post("/admin/delete-category",(req,res,next)=>{
           req.flash("error","Failed to delete category.")
         }
 
-        res.redirect("/admin/list-category")
+        res.redirect("/admin/list-category",{
+          title:"List category"
+        })
       })
     }else{
 

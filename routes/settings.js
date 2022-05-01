@@ -18,7 +18,8 @@ router.route("/admin/currency-settings").get(async(req,res,next)=>{
     }
   })
   res.render("admin/currency-settings",{
-    currency_data:curreny_data
+    currency_data:curreny_data,
+    title:"Currency Settings"
   })
 
 }).post((req,res,next)=>{
@@ -47,7 +48,9 @@ router.route("/admin/currency-settings").get(async(req,res,next)=>{
         }else{
           req.flash("error","Failed to update currency.")
         }
-        res.redirect("/admin/currency-settings")
+        res.redirect("/admin/currency-settings",{
+          title:"Currency Settings"
+        })
       })
     }else{
       //we dont have
@@ -60,7 +63,9 @@ router.route("/admin/currency-settings").get(async(req,res,next)=>{
         }else{
           req.flash("error","Failed to save currency.")
         }
-        res.redirect("/admin/currency-settings")
+        res.redirect("/admin/currency-settings",{
+          title:"Currency Settings"
+        })
 
       })
     }
@@ -72,7 +77,8 @@ router.route("/admin/day-settings").get(async(req,res,next)=>{
   var days = await daysModel.findAll();
 
   res.render("admin/day-settings",{
-    days:days
+    days:days,
+    title:"Day Settings"
   })
 
 }).post((req,res,next)=>{
@@ -85,7 +91,9 @@ router.route("/admin/day-settings").get(async(req,res,next)=>{
   }).then((data)=>{
     if(data){
       req.flash("error","Day already exist")
-      res.redirect("/admin/day-settings")
+      res.redirect("/admin/day-settings",{
+        title:"Day Settings"
+      })
     }else{
       daysModel.create({
         total_days:req.body.day_count
@@ -96,7 +104,9 @@ router.route("/admin/day-settings").get(async(req,res,next)=>{
         }else{
           req.flash("error","Failed to save data.")
         }
-        res.redirect("/admin/day-settings")
+        res.redirect("/admin/day-settings",{
+          title:"Day Settings"
+        })
       })
     }
   })
@@ -118,7 +128,9 @@ router.post("/admin/delete-days/:dayId",(req,res,next)=>{
       //some error
       req.flash("error","Failed to delete data.")
     }
-    res.redirect("/admin/day-settings")
+    res.redirect("/admin/day-settings",{
+      title:"Day Settings"
+    })
   })
 })
 

@@ -9,7 +9,9 @@ const Op = Sequelize.Op;
 const userModel = require("../models").User
 
 router.route("/admin/add-user").get((req,res,next)=>{
-  res.render("admin/add-user")
+  res.render("admin/add-user",{
+    title:"Add User"
+  })
 }).post((req,res,next)=>{
 
   //email address check
@@ -23,7 +25,9 @@ router.route("/admin/add-user").get((req,res,next)=>{
     if(data){
       //email already exists
       req.flash("error","Email address already exists.")
-          res.redirect("/admin/add-user")
+          res.redirect("/admin/add-user",{
+            title:"Add User"
+          })
     }else{
       userModel.create({
         name:req.body.name,
@@ -35,10 +39,14 @@ router.route("/admin/add-user").get((req,res,next)=>{
       }).then((data)=>{
         if(data){
           req.flash("success","User Saved successfully")
-          res.redirect("/admin/add-user")
+          res.redirect("/admin/add-user",{
+            title:"Add User"
+          })
         }else{
           req.flash("error","failed to save user.")
-          res.redirect("/admin/add-user")
+          res.redirect("/admin/add-user",{
+            title:"Add User"
+          })
         }
       })
     }
@@ -52,7 +60,8 @@ router.get("/admin/list-user",async(req,res,next)=>{
   const user_data = await userModel.findAll();
 
   res.render("admin/list-user",{
-    users:user_data
+    users:user_data,
+    title:"List Users"
   })
 })
 
@@ -68,7 +77,8 @@ router.route("/admin/edit-user/:userId").get(async(req,res,next)=>{
   })
 
   res.render("admin/edit-user",{
-    user:user_data
+    user:user_data,
+    title:"Edit User"
   })
 }).post((req,res,next)=>{
   userModel.update({
@@ -86,10 +96,14 @@ router.route("/admin/edit-user/:userId").get(async(req,res,next)=>{
   }).then((data)=>{
     if(data){
       req.flash("success","User has been updated successfully")
-      res.redirect("/admin/edit-user/"+req.params.userId)
+      res.redirect("/admin/edit-user/"+req.params.userId,{
+        title:"Edit User"
+      })
     }else{
       req.flash("error","Failed to update user")
-      res.redirect("/admin/edit-user/"+req.params.userId)
+      res.redirect("/admin/edit-user/"+req.params.userId,{
+        title:"Edit User"
+      })
     }
   })
 })
@@ -109,7 +123,9 @@ router.post("/admin/delete-user",(req,res,next)=>{
       req.flash("error","Failed to delete user")
     }
 
-    res.redirect("/admin/list-user")
+    res.redirect("/admin/list-user",{
+      title:"List User"
+    })
   })
 })
 

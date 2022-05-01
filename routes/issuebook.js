@@ -35,7 +35,8 @@ router.route("/admin/issue-book").get(async(req,res,next)=>{
   res.render("admin/issue-a-book",{
     categories:categories,
     users:users,
-    days:days
+    days:days,
+    title:"Issue Book"
   })
 }).post(async(req,res,next)=>{
 
@@ -55,7 +56,9 @@ router.route("/admin/issue-book").get(async(req,res,next)=>{
 
   if(is_book_issued>0){
     req.flash("error","Book has been already issued to this user.")
-    return res.redirect("/admin/list-issue-book")
+    return res.redirect("/admin/list-issue-book",{
+      title:"Issue Book"
+    })
 
   }else{
     var count_books = await issueBookModel.count({
@@ -71,7 +74,9 @@ router.route("/admin/issue-book").get(async(req,res,next)=>{
   
     if(count_books>=2){
       req.flash("error","Maximum books allowed for each user equals to 2")
-      return res.redirect("/admin/list-issue-book")
+      return res.redirect("/admin/list-issue-book",{
+        title:"Issue Book"
+      })
   
   
     }else{
@@ -88,7 +93,9 @@ router.route("/admin/issue-book").get(async(req,res,next)=>{
           req.flash("error","Failed to issue book.")
         }
     
-        return res.redirect("/admin/list-issue-book")
+        return res.redirect("/admin/list-issue-book",{
+          title:"List Issue Book"
+        })
       })
     }
   }
@@ -120,7 +127,8 @@ router.get("/admin/list-issue-book",async(req,res,next)=>{
   })
 
   res.render("admin/issue-history",{
-    list:issue_list
+    list:issue_list,
+    title:"Issue History"
   })
 })
 

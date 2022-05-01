@@ -1,6 +1,7 @@
 
 const express = require('express')
 const router = express.Router();
+const {redirectHome,redirectLogin }= require("../middleware/redirect") 
 
 const categoryModel = require("../models").Category;
 const optionModel = require("../models").Option ;
@@ -10,7 +11,7 @@ var Sequelize = require("sequelize")
 
 var Op = Sequelize.Op
 
-router.route("/admin/add-book").get(async(req,res,next)=>{
+router.route("/admin/add-book").get(redirectLogin,async(req,res,next)=>{
 
   var categories = await categoryModel.findAll({
     where:{
@@ -30,7 +31,8 @@ router.route("/admin/add-book").get(async(req,res,next)=>{
   
   res.render("admin/add-book",{
     categories:categories,
-    curreny_data:curreny_data
+    curreny_data:curreny_data,
+    title:"Add Book"
   })
 }).post((req,res,next)=>{
   if(!req.files){
@@ -59,11 +61,15 @@ router.route("/admin/add-book").get(async(req,res,next)=>{
         req.flash("error","Failed to create book.")
       }
 
-      res.redirect("/admin/add-book")
+      res.redirect("/admin/add-book",{
+        title:"Add Book"
+      })
     })
     }else{
       req.flash("error","Invalid filetype selected")
-      res.redirect("/admin/add-book")
+      res.redirect("/admin/add-book",{
+        title:"Add Book"
+      })
     }
   }
 })
@@ -87,7 +93,8 @@ router.get("/admin/list-book",async(req,res,next)=>{
 
   res.render("admin/list-book",{
     books:books,
-    curreny_data:curreny_data
+    curreny_data:curreny_data,
+    title:"List Book"
   })
 })
 
@@ -120,7 +127,8 @@ router.route("/admin/edit-book/:bookId").get(async(req,res,next)=>{
   res.render("admin/edit-book",{
     book:book_data,
     categories:categories,
-    curreny_data:curreny_data
+    curreny_data:curreny_data,
+    title:"Edit Book"
   })
 }).post((req,res,next)=>{
   
@@ -146,7 +154,9 @@ router.route("/admin/edit-book/:bookId").get(async(req,res,next)=>{
         req.flash("error","Failed to update book.")
       }
 
-      res.redirect("/admin/edit-book/"+req.params.bookId)
+      res.redirect("/admin/edit-book/"+req.params.bookId,{
+        title:"Edit Book"
+      })
     })
   }else{
     //going to update cover image
@@ -179,11 +189,15 @@ router.route("/admin/edit-book/:bookId").get(async(req,res,next)=>{
       }else{
         req.flash("error","Failed to update book.")
       }
-      res.redirect("/admin/edit-book/"+req.params.bookId)
+      res.redirect("/admin/edit-book/"+req.params.bookId,{
+        title:"Edit Book"
+      })
     })
     }else{
       req.flash("error","Invalid filetype selected")
-      res.redirect("/admin/edit-book/"+req.params.bookId)
+      res.redirect("/admin/edit-book/"+req.params.bookId,{
+        title:"Edit Book"
+      })
 
     }
   }
@@ -209,17 +223,23 @@ router.post("/admin/delete-book",(req,res,next)=>{
       }).then((status)=>{
         if(status){
           req.flash("success","Book has been deleted")
-          res.redirect("/admin/list-book")
+          res.redirect("/admin/list-book",{
+            title:"List Book"
+          })
 
         }else{
       req.flash("error","Failed to delete book")
-      res.redirect("/admin/list-book")
+      res.redirect("/admin/list-book",{
+        title:"List Book"
+      })
 
         }
       })
     }else{
       req.flash("error","Invalid Book id")
-      res.redirect("/admin/list-book")
+      res.redirect("/admin/list-book",{
+        title:"List Book"
+      })
     }
   })
 })
